@@ -66,7 +66,11 @@ function $Breadcrumb() {
             // Get breadcrumb options
             if(conf.ncyBreadcrumb) {
                 if(conf.ncyBreadcrumb.force){ force = true; }
-                if(conf.ncyBreadcrumb.skip){ skip = true; }
+                if(conf.ncyBreadcrumb.skip){
+                    // Handle "skip" property of the breadcrumb (function/bool/undefined)
+                    var skipIsFunction = typeof conf.ncyBreadcrumb.skip === 'function';
+                    skip = skipIsFunction ? conf.ncyBreadcrumb.skip($lastViewScope) : !!conf.ncyBreadcrumb.skip;
+                }
             }
             if((!conf.abstract || $$options.includeAbstract || force) && !skip) {
                 if(ref.paramExpr) {
